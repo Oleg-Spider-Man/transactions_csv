@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  redis:
+    image: redis:5
+    container_name: redis_app
+  app:
+    build:
+      context: .
+    env_file:
+      - .env-docker
+    container_name: fastapi_app
+    command: [ "/app/docker/app.sh" ]
+    ports:
+      - 9991:8000
+    depends_on:
+      - redis
+  bot:
+    build:
+      context: .
+    env_file:
+      - .env-docker
+    container_name: bot_app
+    command: python -m src.bot.bot_main
+    depends_on:
+      - app
