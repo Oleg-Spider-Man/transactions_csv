@@ -23,3 +23,10 @@ services:
     command: python -m src.bot.bot_main
     depends_on:
       - app
+  console:
+    build:
+      context: .
+    env_file:
+      - .env-docker
+    container_name: console
+    command: python -m  src.main --file src/tx.csv --start_date 2023-10-01 --end_date 2023-10-03

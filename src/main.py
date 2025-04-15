@@ -39,7 +39,7 @@ async def main():
                 response = await client.post(f"http://{DB_HOST_}:{PORT_}/send_results", json={"chat_id": chat_id,
                                                                                               "results": results})
                 if response.status_code == 200:
-                    return "Данные отправленны в телеграмм"
+                    return "Данные отправлены в телеграмм"
 
     except Exception as e:
         print(f"Ошибка: {str(e)}")
