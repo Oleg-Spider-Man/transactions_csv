@@ -1,6 +1,7 @@
+import os
+
 import pandas as pd
 from typing import Dict, Optional
-
 import redis
 
 
@@ -19,7 +20,12 @@ class FinanceAnalyzer:
     def load_data(self) -> pd.DataFrame:
         # Загрузка из CSV файла
         try:
+            if not os.path.isfile(self.file_path):
+                raise FileNotFoundError(f"Файл не найден: {self.file_path}")
             df = pd.read_csv(self.file_path)
+            required_columns = {'date', 'category', 'amount', 'description'}
+            if not required_columns.issubset(df.columns):
+                raise ValueError("В файле несоответствие колонок")
             return df
         except Exception as e:
             raise ValueError(f"Ошибка при чтении файла: {str(e)}")
@@ -36,6 +42,9 @@ class FinanceAnalyzer:
             df = df[df['date'] >= pd.to_datetime(start_date)]
         if end_date:
             df = df[df['date'] <= pd.to_datetime(end_date)]
+            # Проверяем, что даты корректны
+        if df['date'].isnull().any():
+            raise ValueError("В файле есть некорректные даты")
         return df
 
     @staticmethod
