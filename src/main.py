@@ -1,6 +1,7 @@
 import asyncio
 import httpx
-from src.analyzer import FinanceAnalyzer, pd
+from src.analyzer import pd
+from src import analyzer
 from src.parse import parse_args
 from src.config import DB_HOST_, PORT_
 from src.redis_db import get_chat_id
@@ -10,11 +11,9 @@ async def main():
     """Основная функция программы"""
     args = parse_args()
 
-    analyzer = FinanceAnalyzer(args.file)
-
     try:
         # Загрузка и фильтрация данных
-        df = analyzer.load_data()
+        df = analyzer.load_data(args.file)
         df['date'] = pd.to_datetime(df['date'])
 
         df = analyzer.filter_by_dates(df, args.start_date, args.end_date)
@@ -23,13 +22,11 @@ async def main():
         result = analyzer.calculate_by_categories(df)
 
         # Вывод результатов в консоль
-        #analyzer.print_results(results)
         results = analyzer.print_results(result)
 
         # отправка в телегу если есть чат
         try:
             chat_id = await get_chat_id()
-            print(f"Полученный chat_id: {chat_id!r}")
         except Exception as e:
             print(f"Ошибка подключения к Redis: {e}")
             chat_id = None

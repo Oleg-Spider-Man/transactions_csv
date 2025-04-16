@@ -2,6 +2,19 @@ from typing import Dict
 from pydantic import BaseModel
 
 
-class ResultsPayload(BaseModel):
+class ChatidAndResults(BaseModel):
     chat_id: int
     results: Dict[str, float]
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "chat_id": 123456789,
+                "results": {
+                    "Food": 25.00,
+                    "Transport": 10.50,
+                    "Итого": 35.50
+                }
+            }
+        }
+

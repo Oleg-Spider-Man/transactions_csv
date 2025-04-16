@@ -29,4 +29,4 @@ services:
     env_file:
       - .env-docker
     container_name: console
-    command: python -m  src.main --file src/tx.csv --start_date 2023-10-01 --end_date 2023-10-03
+    command: python -m  src.main --file src/test.csv --start_date 2023-10-01 --end_date 2023-10-03
