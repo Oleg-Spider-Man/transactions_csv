@@ -20,11 +20,11 @@ async def main():
         df = analyzer.filter_by_dates(df, args.start_date, args.end_date)
 
         # Расчет результатов
-        results = analyzer.calculate_by_categories(df)
+        result = analyzer.calculate_by_categories(df)
 
         # Вывод результатов в консоль
-        analyzer.print_results(results)
-        results = analyzer.print_results(results)
+        #analyzer.print_results(results)
+        results = analyzer.print_results(result)
 
         # отправка в телегу если есть чат
         try:

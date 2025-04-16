@@ -20,7 +20,7 @@ TELEGRAM_API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 
 @app.post("/send_results", response_model=dict)
-async def send_results(payload: ResultsPayload):
+async def send_results(payload: ResultsPayload ):# чат айди и словарь
     text = format_results(payload.results)
 
     async with httpx.AsyncClient() as client:

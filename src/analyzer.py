@@ -68,7 +68,7 @@ class FinanceAnalyzer:
         total = sum(results.values())
         for category, amount in results.items():
             print(f"{category}: {amount:.2f}")
-        print(f"\nИтого: {total:.2f}")
+        print(f"Итого: {total:.2f}")
         results_with_total = results.copy()
         results_with_total["Итого"] = total
         return results_with_total
