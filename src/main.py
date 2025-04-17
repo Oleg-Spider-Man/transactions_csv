@@ -1,6 +1,6 @@
 import asyncio
 import httpx
-from src.analyzer import pd
+from src.analyzer import load_and_process
 from src import analyzer
 from src.parse import parse_args
 from src.config import DB_HOST_, PORT_
@@ -12,17 +12,21 @@ async def main():
     args = parse_args()
 
     try:
+        process = await load_and_process(args.file, args.start_date, args.end_date)
+
+        results = analyzer.print_results(process)
+
         # Загрузка и фильтрация данных
-        df = analyzer.load_data(args.file)
-        df['date'] = pd.to_datetime(df['date'])
-
-        df = analyzer.filter_by_dates(df, args.start_date, args.end_date)
-
-        # Расчет результатов
-        result = analyzer.calculate_by_categories(df)
-
-        # Вывод результатов в консоль
-        results = analyzer.print_results(result)
+        # df = analyzer.load_data(args.file)
+        # df['date'] = pd.to_datetime(df['date'])
+        #
+        # df = analyzer.filter_by_dates(df, args.start_date, args.end_date)
+        #
+        # # Расчет результатов
+        # result = analyzer.calculate_by_categories(df)
+        #
+        # # Вывод результатов в консоль
+        # results = analyzer.print_results(result)
 
         # отправка в телегу если есть чат
         try:
