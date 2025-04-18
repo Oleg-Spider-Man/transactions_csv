@@ -23,6 +23,7 @@ services:
     command: python -m src.bot.bot_main
     depends_on:
       - app
+      - redis
   console:
     build:
       context: .
@@ -30,3 +31,6 @@ services:
       - .env-docker
     container_name: console
     command: python -m  src.main --file src/test.csv --start_date 2023-10-01 --end_date 2023-10-03
+    depends_on:
+      - redis
+      - app

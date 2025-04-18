@@ -2,17 +2,18 @@ import httpx
 import uvicorn
 from fastapi import HTTPException, FastAPI
 from src.analyzer import format_results_for_bot
-from src.api.schemas import ChatidAndResults
+from src.api.schemas import ChatidAndResults, Response
 from src.config import TELEGRAM_API_URL
 
 app = FastAPI()
 
 
-@app.post("/send_results", response_model=dict)
+@app.post("/send_results", response_model=Response)
 async def send_results(chat_id_and_results: ChatidAndResults):  # chat_id: int = Body(None, example=123456789)
-    # если больше одного параметра, свагер объединяет
-    # автоматически в словарь и меняет пример на тот что был.
-    # чат айди и словарь. 2. описание для метода скорее всего описание в свагер
+    # Если больше одного параметра, свагер объединяет
+    # автоматически в словарь и меняет заданный пример на стандартный тот что был.
+    # Я изменил пример в сваггер с помощью класса config в схеме. Теперь в документации есть пример
+    # ключей и значений словаря.
     try:
         text = format_results_for_bot(chat_id_and_results.results)
 

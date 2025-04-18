@@ -13,29 +13,13 @@ async def main():
 
     try:
         process = await load_and_process(args.file, args.start_date, args.end_date)
-
         results = analyzer.print_results(process)
-
-        # Загрузка и фильтрация данных
-        # df = analyzer.load_data(args.file)
-        # df['date'] = pd.to_datetime(df['date'])
-        #
-        # df = analyzer.filter_by_dates(df, args.start_date, args.end_date)
-        #
-        # # Расчет результатов
-        # result = analyzer.calculate_by_categories(df)
-        #
-        # # Вывод результатов в консоль
-        # results = analyzer.print_results(result)
-
-        # отправка в телегу если есть чат
         try:
             chat_id = await get_chat_id()
         except Exception as e:
             print(f"Ошибка подключения к Redis: {e}")
             chat_id = None
         if chat_id:
-            # httpx отправка на эндпоинт а с него в телегу
             async with httpx.AsyncClient() as client:
                 response = await client.post(f"http://{DB_HOST_}:{PORT_}/send_results", json={"chat_id": chat_id,
                                                                                               "results": results})

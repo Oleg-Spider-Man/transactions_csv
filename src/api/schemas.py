@@ -18,3 +18,12 @@ class ChatidAndResults(BaseModel):
             }
         }
 
+
+class Response(BaseModel):
+    status: str
+    chat_id: int
+
+    class Config:
+        json_schema_extra = {
+            "example": {"status": "success", "chat_id": 123456789}
+        }
