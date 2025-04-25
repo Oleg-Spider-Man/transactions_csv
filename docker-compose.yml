@@ -3,6 +3,8 @@ services:
   redis:
     image: redis:5
     container_name: redis_app
+    networks:
+      - app_network
   app:
     build:
       context: .
@@ -14,6 +16,8 @@ services:
       - 9991:8000
     depends_on:
       - redis
+    networks:
+      - app_network
   bot:
     build:
       context: .
@@ -24,6 +28,8 @@ services:
     depends_on:
       - app
       - redis
+    networks:
+      - app_network
   console:
     build:
       context: .
@@ -34,3 +40,9 @@ services:
     depends_on:
       - redis
       - app
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge

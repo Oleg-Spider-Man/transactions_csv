@@ -1,4 +1,6 @@
 import asyncio
+import traceback
+
 import httpx
 from src.analyzer import load_and_process
 from src import analyzer
@@ -20,15 +22,23 @@ async def main():
             print(f"Ошибка подключения к Redis: {e}")
             chat_id = None
         if chat_id:
-            async with httpx.AsyncClient() as client:
-                response = await client.post(f"http://{DB_HOST_}:{PORT_}/send_results", json={"chat_id": chat_id,
-                                                                                              "results": results})
+            timeout = httpx.Timeout(10.0, read=20.0)
+            async with httpx.AsyncClient(timeout=timeout) as client:
+                response = await client.post(f"http://{DB_HOST_}:{PORT_}/send_results",
+                                             json={"chat_id": chat_id, "results": results})
                 if response.status_code == 200:
                     return "Данные отправлены в телеграмм"
-
+                else:
+                    print(f"Ошибка при отправке данных в API: статус {response.status_code}, ответ: {response.text}")
+                    return "Ошибка при отправке данных в API"
     except Exception as e:
-        print(f"Ошибка: {str(e)}")
+        print(f"Ошибка: {repr(e)}")
+        traceback.print_exc()
         return "Ошибка при обработке данных"
+
+    # except Exception as e:
+    #     print(f"Ошибка: {str(e)}")
+    #     return "Ошибка при обработке данных"
 
 
 if __name__ == "__main__":
