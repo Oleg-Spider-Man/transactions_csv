@@ -64,6 +64,7 @@ Transactions csv
 Команда запуска бота - python -m src.bot.bot_main
 Команда запуска апи - uvicorn src.api.api_main:app --host 0.0.0.0 --port 8000 --reload
 Пример команды запуска скрипта - python -m src.main --file src\test.csv --start_date 2023-10-01 --end_date 2023-10-03
+
 Запустите с использованием Docker: Для запуска всех сервисов (Консольное приложение, приложение FastAPI, Бот Aiogram, Redis) выполните:
 
 docker-compose up --build
