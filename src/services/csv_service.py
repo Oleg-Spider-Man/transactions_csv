@@ -1,10 +1,7 @@
-# здесь логика из main которая берет данные из парсера анализирует их функцией
-# и второй функцией создает результат
 from collections import defaultdict
 from datetime import datetime
 from typing import Optional
 from src.api.schemas import CsvDataDTO
-from src.parse import parse_args
 from src.repositories.сsv_repository import CsvFileRepository
 
 

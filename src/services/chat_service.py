@@ -1,5 +1,4 @@
-# здесь логика из main которая проверяет в бд чат и если есть отправляет сообщение на апи.
-from src.api.schemas import CsvDataDTO, ChatidAndResults
+from src.api.schemas import CsvDataDTO
 from src.config import DB_HOST_, PORT_
 from src.repositories.chat_repository import ChatRepository
 import httpx
@@ -14,7 +13,6 @@ class ChatService:
             results: CsvDataDTO
     ):
         try:
-    # второй сервис со своим репозиторием чата редис пошел
             chat_id = await self.repository.get_chat_id()
         except Exception as e:
             print(f"Ошибка подключения к Redis: {e}")

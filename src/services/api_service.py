@@ -1,5 +1,3 @@
-#  здесь не нужен репозиторий а только логика преобразования сообщения и отправка в телеграмм чат.
-# здесь логика из api_main
 import httpx
 from fastapi import HTTPException
 from src.api.schemas import ChatidAndResults
@@ -13,7 +11,7 @@ class ApiService:
         try:
             text = format_results_for_bot(chat_id_and_results.results)
 
-            async with httpx.AsyncClient() as client:  # не стал client в зависимость ставить
+            async with httpx.AsyncClient() as client:
                 response = await client.post(TELEGRAM_API_URL,
                                              json={"chat_id": chat_id_and_results.chat_id, "text": text}
                                              )

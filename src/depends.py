@@ -1,12 +1,3 @@
-from redis.asyncio import Redis
-from fastapi import Depends
-from src.config import REDIS_HOST, REDIS_PORT
-from src.repositories.chat_repository import ChatRepository
-from src.repositories.сsv_repository import CsvFileRepository
-from src.services.bot_service import BotService
-from src.services.chat_service import ChatService
-from src.services.csv_service import CsvService
-
 
 # async def get_redis_client():
 #     r = Redis(host=REDIS_HOST, port=REDIS_PORT, db=0, decode_responses=True)
@@ -39,9 +30,3 @@ from src.services.csv_service import CsvService
 
  # добавить зависимсоть httpx асинк клиент она в двух сервисах
 
- # это для вызовов в маин и в энпоинте
-# создать
-# 2 сам репозиторий с зависимотью get_redis_client
-# и 3 сервис с зависомостью репозиторя от сюда.
-
- # но сначала нужны классы в папках репозиторий и сервис создать.
