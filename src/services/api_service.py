@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 import httpx
 from fastapi import HTTPException
 from src.api.schemas import ChatidAndResults
@@ -5,9 +6,14 @@ from src.config import TELEGRAM_API_URL
 from src.utils.analyzer import format_results_for_bot
 
 
-class ApiService:
-    @staticmethod  # когда добавлю логирование ститик убрать
-    async def send_results(chat_id_and_results: ChatidAndResults):
+class AbstractApiService(ABC):
+    @abstractmethod
+    async def send_results(self, chat_id_and_results: ChatidAndResults):
+        pass
+
+
+class ApiService(AbstractApiService):
+    async def send_results(self, chat_id_and_results: ChatidAndResults):
         try:
             text = format_results_for_bot(chat_id_and_results.results)
 

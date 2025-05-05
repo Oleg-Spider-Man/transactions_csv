@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from collections import defaultdict
 from datetime import datetime
 from typing import Optional
@@ -5,7 +6,17 @@ from src.api.schemas import CsvDataDTO
 from src.repositories.сsv_repository import CsvFileRepository
 
 
-class CsvService:
+class AbstractCsvService(ABC):
+    @abstractmethod
+    async def load_and_process(self,
+                               file_path: str,
+                               start_date: Optional[str] = None,
+                               end_date: Optional[str] = None
+                               ) -> CsvDataDTO:
+        pass
+
+
+class CsvService(AbstractCsvService):
     def __init__(self, repository: CsvFileRepository):
         self.repository = repository
 
@@ -70,4 +81,3 @@ class CsvService:
         results_with_total = category_sums.copy()  # что бы не менять исходный словарь
         results_with_total["Итого"] = total
         return CsvDataDTO(results=results_with_total)
-

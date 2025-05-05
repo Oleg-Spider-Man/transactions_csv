@@ -1,10 +1,17 @@
+from abc import ABC, abstractmethod
 from src.api.schemas import CsvDataDTO
 from src.config import DB_HOST_, PORT_
 from src.repositories.chat_repository import ChatRepository
 import httpx
 
 
-class ChatService:
+class AbstractChatService(ABC):
+    @abstractmethod
+    async def get_chat_and_send_api(self, results: CsvDataDTO):
+        pass
+
+
+class ChatService(AbstractChatService):
     def __init__(self, repository: ChatRepository):
         self.repository = repository
 
