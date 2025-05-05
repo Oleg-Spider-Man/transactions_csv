@@ -3,7 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from src.config import BOT_TOKEN
-from src.redis_db import redis_client
+from src.redis_db import redis_factory
 from src.repositories.chat_repository import ChatRepository
 from src.services.bot_service import BotService
 
@@ -15,6 +15,7 @@ dp = Dispatcher()
 async def start_handler(message: types.Message):
     try:
         chat_id = message.chat.id
+        redis_client = await redis_factory.create_client()
         repo = ChatRepository(redis_client)
         await BotService(repo).save_chat_id(chat_id)
         await message.answer("Ваш chat_id сохранён!")
